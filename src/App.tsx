@@ -11,6 +11,10 @@ import Channel from "./pages/Channel";
 import DirectMessage from "./pages/DirectMessage";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
+import Calendar from "./pages/Calendar";
+import Documents from "./pages/Documents";
+import Meetings from "./pages/Meetings";
+import Whiteboard from "./pages/Whiteboard";
 
 const queryClient = new QueryClient();
 
@@ -29,9 +33,10 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/channels/:channelId" element={<Channel />} />
             <Route path="/dm/:userId" element={<DirectMessage />} />
-            <Route path="/calendar" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/documents" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/meetings" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/documents" element={<Documents />} />
+            <Route path="/meetings" element={<Meetings />} />
+            <Route path="/whiteboard" element={<Whiteboard />} />
           </Route>
           
           <Route path="*" element={<NotFound />} />

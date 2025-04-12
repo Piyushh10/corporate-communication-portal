@@ -12,6 +12,7 @@ import {
   Video,
   Search,
   PanelLeft,
+  Edit3,
 } from "lucide-react";
 import ChannelList from './ChannelList';
 import DirectMessageList from './DirectMessageList';
@@ -70,6 +71,7 @@ const Sidebar = () => {
           <NavItem icon={Calendar} href="/calendar" label="Calendar" />
           <NavItem icon={FileText} href="/documents" label="Documents" />
           <NavItem icon={Video} href="/meetings" label="Meetings" />
+          <NavItem icon={Edit3} href="/whiteboard" label="Whiteboard" />
         </div>
         
         {!collapsed && (
