@@ -16,6 +16,9 @@ import Calendar from "./pages/Calendar";
 import Documents from "./pages/Documents";
 import Meetings from "./pages/Meetings";
 import Whiteboard from "./pages/Whiteboard";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import Notifications from "./pages/Notifications";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +41,9 @@ const App = () => (
             <Route path="/documents" element={<Documents />} />
             <Route path="/meetings" element={<Meetings />} />
             <Route path="/whiteboard" element={<Whiteboard />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/notifications" element={<Notifications />} />
           </Route>
           
           <Route path="*" element={<NotFound />} />
