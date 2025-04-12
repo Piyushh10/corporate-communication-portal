@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MessageArea from '@/components/MessageArea';
@@ -17,6 +16,11 @@ interface Message {
   content: string;
   timestamp: Date;
   isEncrypted: boolean;
+  files?: {
+    name: string;
+    size: string;
+    type: string;
+  }[];
 }
 
 interface UserData {
@@ -32,10 +36,9 @@ const DirectMessage = () => {
   const { userId } = useParams<{ userId: string }>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [sharedFiles, setSharedFiles] = useState<{name: string, size: string, type: string}[]>([]);
 
-  // Initialize dummy data for the selected user
   useEffect(() => {
-    // Simulating API call to get user data
     const users = {
       alice: {
         id: 'alice',
@@ -114,7 +117,13 @@ const DirectMessage = () => {
     }
   }, [userId]);
 
-  const handleSendMessage = (content: string) => {
+  const handleSendMessage = (content: string, files?: File[]) => {
+    const fileData = files?.map(file => ({
+      name: file.name,
+      size: formatBytes(file.size),
+      type: file.type.split('/')[0]
+    }));
+
     const newMessage = {
       id: Date.now().toString(),
       sender: {
@@ -123,10 +132,23 @@ const DirectMessage = () => {
       },
       content,
       timestamp: new Date(),
-      isEncrypted: true
+      isEncrypted: true,
+      files: fileData
     };
 
     setMessages([...messages, newMessage]);
+    
+    if (fileData && fileData.length > 0) {
+      setSharedFiles(prev => [...prev, ...fileData]);
+    }
+  };
+
+  const formatBytes = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
   const getInitials = (name: string) => {
@@ -217,9 +239,22 @@ const DirectMessage = () => {
           </div>
           <Separator className="my-4" />
           <h3 className="font-medium mb-2">Shared Files</h3>
-          <div className="flex justify-center mt-2">
-            <p className="text-sm text-muted-foreground">No files shared yet</p>
-          </div>
+          {sharedFiles.length > 0 ? (
+            <div className="space-y-2 text-sm">
+              {sharedFiles.map((file, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="truncate flex-1">
+                    <p className="truncate">{file.name}</p>
+                    <p className="text-muted-foreground text-xs">{file.size}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center mt-2">
+              <p className="text-sm text-muted-foreground">No files shared yet</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

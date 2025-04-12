@@ -1,6 +1,13 @@
 
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FileText, FileImage, File } from "lucide-react";
+
+interface MessageFile {
+  name: string;
+  size: string;
+  type: string;
+}
 
 interface Message {
   id: string;
@@ -11,6 +18,7 @@ interface Message {
   content: string;
   timestamp: Date;
   isEncrypted: boolean;
+  files?: MessageFile[];
 }
 
 interface MessageAreaProps {
@@ -29,6 +37,17 @@ const MessageArea: React.FC<MessageAreaProps> = ({ messages }) => {
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const getFileIcon = (type: string) => {
+    switch (type) {
+      case 'image':
+        return <FileImage className="h-4 w-4 text-blue-500" />;
+      case 'text':
+        return <FileText className="h-4 w-4 text-green-500" />;
+      default:
+        return <File className="h-4 w-4 text-amber-500" />;
+    }
   };
 
   return (
@@ -50,6 +69,23 @@ const MessageArea: React.FC<MessageAreaProps> = ({ messages }) => {
               )}
             </div>
             <p className="text-sm mt-1">{message.content}</p>
+            
+            {message.files && message.files.length > 0 && (
+              <div className="mt-2 space-y-1">
+                {message.files.map((file, index) => (
+                  <div 
+                    key={index}
+                    className="flex items-center gap-2 bg-muted/30 hover:bg-muted/50 rounded-md p-2 text-sm cursor-pointer"
+                  >
+                    {getFileIcon(file.type)}
+                    <div className="truncate">
+                      <div className="font-medium truncate">{file.name}</div>
+                      <div className="text-xs text-muted-foreground">{file.size}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       ))}
