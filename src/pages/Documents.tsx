@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,8 +15,7 @@ import {
   FolderPlus, 
   Pencil,
   File,
-  FileCode,
-  FilePdf
+  FileCode
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -159,7 +157,7 @@ const Documents = () => {
       case 'archive':
         return <FileArchive className="h-5 w-5 text-amber-500" />;
       case 'pdf':
-        return <FilePdf className="h-5 w-5 text-red-500" />;
+        return <File className="h-5 w-5 text-red-500" />;
       case 'code':
         return <FileCode className="h-5 w-5 text-purple-500" />;
       default:
