@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,7 +8,6 @@ import {
   Video, 
   Plus, 
   Calendar, 
-  Clock, 
   Users, 
   Mic, 
   MicOff, 
@@ -60,31 +58,54 @@ const Meetings = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoOff, setIsVideoOff] = useState(false);
   const [currentMeeting, setCurrentMeeting] = useState<Meeting | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [stream, setStream] = useState<MediaStream | null>(null);
 
-  const startMeeting = (meetingId?: number) => {
-    if (meetingId) {
-      const meeting = meetings.find(m => m.id === meetingId);
-      if (meeting) {
-        setCurrentMeeting({...meeting, status: 'live'});
-        setMeetings(meetings.map(m => 
-          m.id === meetingId ? {...m, status: 'live'} : m
-        ));
+  const startMeeting = async (meetingId?: number) => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+        video: true, 
+        audio: true 
+      });
+      
+      setStream(mediaStream);
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream;
       }
-    } else {
-      const newMeeting = {
-        id: meetings.length + 1,
-        title: "Instant Meeting",
-        time: "Now",
-        participants: ["You"],
-        status: 'live' as const,
-      };
-      setCurrentMeeting(newMeeting);
-      setMeetings([...meetings, newMeeting]);
+
+      if (meetingId) {
+        const meeting = meetings.find(m => m.id === meetingId);
+        if (meeting) {
+          setCurrentMeeting({...meeting, status: 'live'});
+          setMeetings(meetings.map(m => 
+            m.id === meetingId ? {...m, status: 'live'} : m
+          ));
+        }
+      } else {
+        const newMeeting = {
+          id: meetings.length + 1,
+          title: "Instant Meeting",
+          time: "Now",
+          participants: ["You"],
+          status: 'live' as const,
+        };
+        setCurrentMeeting(newMeeting);
+        setMeetings([...meetings, newMeeting]);
+      }
+      setInCall(true);
+    } catch (err) {
+      console.error("Error accessing media devices:", err);
+      toast.error("Could not access camera or microphone. Please check permissions.");
     }
-    setInCall(true);
   };
 
   const endCall = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+    
     if (currentMeeting) {
       setMeetings(meetings.map(m => 
         m.id === currentMeeting.id ? {...m, status: 'ended'} : m
@@ -96,11 +117,23 @@ const Meetings = () => {
   };
 
   const toggleMute = () => {
+    if (stream) {
+      const audioTracks = stream.getAudioTracks();
+      audioTracks.forEach(track => {
+        track.enabled = isMuted;
+      });
+    }
     setIsMuted(!isMuted);
     toast(`Microphone ${isMuted ? 'unmuted' : 'muted'}`);
   };
 
   const toggleVideo = () => {
+    if (stream) {
+      const videoTracks = stream.getVideoTracks();
+      videoTracks.forEach(track => {
+        track.enabled = isVideoOff;
+      });
+    }
     setIsVideoOff(!isVideoOff);
     toast(`Camera ${isVideoOff ? 'turned on' : 'turned off'}`);
   };
@@ -108,6 +141,14 @@ const Meetings = () => {
   const inviteParticipant = () => {
     toast.success("Invitation link copied to clipboard");
   };
+
+  useEffect(() => {
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [stream]);
 
   if (inCall) {
     return (
@@ -141,7 +182,13 @@ const Meetings = () => {
             ) : (
               <div className="relative">
                 <div className="w-96 h-64 bg-gradient-to-b from-blue-600 to-blue-800 rounded-lg flex items-center justify-center overflow-hidden">
-                  <Users size={64} className="text-white/30" />
+                  <video 
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
+                    muted
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="absolute bottom-4 left-4 bg-black/60 px-3 py-1 rounded-md text-sm">
                   You

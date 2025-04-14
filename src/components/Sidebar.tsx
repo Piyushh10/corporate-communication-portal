@@ -17,10 +17,22 @@ import {
 import ChannelList from './ChannelList';
 import DirectMessageList from './DirectMessageList';
 import ProfileButton from './ProfileButton';
+import AddChannelDialog from './AddChannelDialog';
 
 const Sidebar = () => {
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
+  const [channels, setChannels] = useState([
+    { id: 'general', name: 'General' },
+    { id: 'announcements', name: 'Announcements' },
+    { id: 'engineering', name: 'Engineering' },
+    { id: 'marketing', name: 'Marketing' },
+    { id: 'hr', name: 'HR' },
+  ]);
+
+  const handleNewChannel = (channel: { id: string, name: string }) => {
+    setChannels([...channels, channel]);
+  };
 
   const NavItem = ({ icon: Icon, href, label }: { icon: React.ElementType; href: string; label: string }) => {
     const isActive = location.pathname === href;
@@ -79,7 +91,7 @@ const Sidebar = () => {
             <div className="mt-6">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-sm font-medium">Channels</h3>
-                <Button variant="ghost" size="sm" className="h-5 w-5 p-0">+</Button>
+                <AddChannelDialog onChannelCreated={handleNewChannel} />
               </div>
               <ChannelList />
             </div>

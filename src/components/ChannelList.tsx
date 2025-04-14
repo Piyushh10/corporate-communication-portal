@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from "@/lib/utils";
 import { Hash } from "lucide-react";
+import AddChannelDialog from './AddChannelDialog';
 
-const channels = [
+const defaultChannels = [
   { id: 'general', name: 'General' },
   { id: 'announcements', name: 'Announcements' },
   { id: 'engineering', name: 'Engineering' },
@@ -14,6 +15,11 @@ const channels = [
 
 const ChannelList = () => {
   const location = useLocation();
+  const [channels, setChannels] = useState(defaultChannels);
+
+  const handleChannelCreated = (newChannel: { id: string, name: string }) => {
+    setChannels([...channels, newChannel]);
+  };
 
   return (
     <div className="space-y-1">
@@ -34,6 +40,14 @@ const ChannelList = () => {
           </Link>
         );
       })}
+      <div className="pt-2">
+        <Link 
+          to="#"
+          className="flex items-center gap-2 px-2 py-1.5 rounded-md text-sm hover:bg-secondary group"
+        >
+          <span className="text-muted-foreground">Create your own channel</span>
+        </Link>
+      </div>
     </div>
   );
 };
