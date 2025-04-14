@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,21 +36,21 @@ const Meetings = () => {
       id: 1,
       title: "Weekly Team Sync",
       time: "Today, 3:00 PM",
-      participants: ["John Doe", "Jane Smith", "Robert Brown"],
+      participants: ["Piyush", "Nimisha", "Nandini"],
       status: 'scheduled',
     },
     {
       id: 2,
       title: "Project Planning",
       time: "Today, 5:00 PM",
-      participants: ["Alice Johnson", "Mark Wilson"],
+      participants: ["Nimisha", "Pranav"],
       status: 'scheduled',
     },
     {
       id: 3,
       title: "Security Review",
       time: "Tomorrow, 10:00 AM",
-      participants: ["Sarah Lee", "Thomas Wright", "Maria Garcia"],
+      participants: ["Nandini", "Pranav", "Piyush"],
       status: 'scheduled',
     },
   ]);
@@ -70,9 +71,12 @@ const Meetings = () => {
       
       setStream(mediaStream);
       
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-      }
+      // This timeout ensures the video element is fully mounted before setting srcObject
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = mediaStream;
+        }
+      }, 100);
 
       if (meetingId) {
         const meeting = meetings.find(m => m.id === meetingId);
@@ -94,6 +98,12 @@ const Meetings = () => {
         setMeetings([...meetings, newMeeting]);
       }
       setInCall(true);
+      
+      // Make sure initial states reflect actual stream settings
+      setIsMuted(false);
+      setIsVideoOff(false);
+      
+      console.log("Media stream acquired successfully", mediaStream.id);
     } catch (err) {
       console.error("Error accessing media devices:", err);
       toast.error("Could not access camera or microphone. Please check permissions.");
@@ -143,12 +153,20 @@ const Meetings = () => {
   };
 
   useEffect(() => {
+    // Clean up function to stop all tracks when component unmounts
     return () => {
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
       }
     };
   }, [stream]);
+
+  // Additional useEffect to handle video element setup when component mounts or inCall changes
+  useEffect(() => {
+    if (inCall && stream && videoRef.current) {
+      videoRef.current.srcObject = stream;
+    }
+  }, [inCall, stream]);
 
   if (inCall) {
     return (
@@ -243,7 +261,7 @@ const Meetings = () => {
                 <div key={i} className="w-32 h-24 bg-slate-800 rounded-lg flex items-center justify-center">
                   <Avatar className="h-10 w-10">
                     <AvatarFallback>
-                      {participant.split(' ').map(n => n[0]).join('')}
+                      {participant[0]}
                     </AvatarFallback>
                   </Avatar>
                 </div>
