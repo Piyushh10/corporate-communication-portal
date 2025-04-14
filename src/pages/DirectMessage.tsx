@@ -40,68 +40,68 @@ const DirectMessage = () => {
 
   useEffect(() => {
     const users = {
-      alice: {
-        id: 'alice',
-        name: 'Alice Johnson',
+      piyush: {
+        id: 'piyush',
+        name: 'Piyush Sharma',
         status: 'online',
         role: 'Product Manager',
         department: 'Product',
-        email: 'alice@example.com',
+        email: 'piyush@example.com',
         messages: [
           {
             id: '1',
-            sender: { name: 'Alice Johnson', avatarUrl: '' },
+            sender: { name: 'Piyush Sharma', avatarUrl: '' },
             content: 'Hi there! Did you get a chance to review the project timeline?',
             timestamp: new Date(Date.now() - 3600000), // 1 hour ago
             isEncrypted: true
           }
         ]
       },
-      bob: {
-        id: 'bob',
-        name: 'Bob Smith',
+      nimisha: {
+        id: 'nimisha',
+        name: 'Nimisha Patel',
         status: 'offline',
         role: 'Developer',
         department: 'Engineering',
-        email: 'bob@example.com',
+        email: 'nimisha@example.com',
         messages: [
           {
             id: '1',
-            sender: { name: 'Bob Smith', avatarUrl: '' },
+            sender: { name: 'Nimisha Patel', avatarUrl: '' },
             content: 'Can we discuss the deployment schedule tomorrow?',
             timestamp: new Date(Date.now() - 86400000), // 1 day ago
             isEncrypted: true
           }
         ]
       },
-      carol: {
-        id: 'carol',
-        name: 'Carol Davies',
+      nandini: {
+        id: 'nandini',
+        name: 'Nandini Kumar',
         status: 'away',
         role: 'UX Designer',
         department: 'Design',
-        email: 'carol@example.com',
+        email: 'nandini@example.com',
         messages: [
           {
             id: '1',
-            sender: { name: 'Carol Davies', avatarUrl: '' },
+            sender: { name: 'Nandini Kumar', avatarUrl: '' },
             content: 'I\'ve updated the mockups with your feedback.',
             timestamp: new Date(Date.now() - 7200000), // 2 hours ago
             isEncrypted: true
           }
         ]
       },
-      dave: {
-        id: 'dave',
-        name: 'Dave Wilson',
+      pranav: {
+        id: 'pranav',
+        name: 'Pranav Singh',
         status: 'dnd',
         role: 'CTO',
         department: 'Executive',
-        email: 'dave@example.com',
+        email: 'pranav@example.com',
         messages: [
           {
             id: '1',
-            sender: { name: 'Dave Wilson', avatarUrl: '' },
+            sender: { name: 'Pranav Singh', avatarUrl: '' },
             content: 'Let\'s schedule a quick sync about the security audit results.',
             timestamp: new Date(Date.now() - 10800000), // 3 hours ago
             isEncrypted: true

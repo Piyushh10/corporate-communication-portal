@@ -38,21 +38,21 @@ const Channel = () => {
         messages: [
           {
             id: '1',
-            sender: { name: 'Alice Johnson', avatarUrl: '' },
+            sender: { name: 'Piyush Sharma', avatarUrl: '' },
             content: 'Welcome to the General channel! This is where we discuss company-wide topics.',
             timestamp: new Date(Date.now() - 3600000 * 2), // 2 hours ago
             isEncrypted: true
           },
           {
             id: '2',
-            sender: { name: 'Bob Smith', avatarUrl: '' },
+            sender: { name: 'Nimisha Patel', avatarUrl: '' },
             content: 'Has anyone seen the updated security guidelines? I need to reference them for a client meeting.',
             timestamp: new Date(Date.now() - 3600000), // 1 hour ago
             isEncrypted: true
           },
           {
             id: '3',
-            sender: { name: 'Carol Davies', avatarUrl: '' },
+            sender: { name: 'Nandini Kumar', avatarUrl: '' },
             content: 'Yes, they were shared last week. I\'ll send you the link.',
             timestamp: new Date(Date.now() - 1800000), // 30 mins ago
             isEncrypted: true
@@ -216,24 +216,31 @@ const Channel = () => {
           </p>
           <Separator className="my-4" />
           <h3 className="font-medium mb-2">Members • {memberCount}</h3>
+          
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
-                <AvatarFallback className="text-xs">AJ</AvatarFallback>
+                <AvatarFallback className="text-xs">PS</AvatarFallback>
               </Avatar>
-              <span className="text-sm">Alice Johnson</span>
+              <span className="text-sm">Piyush Sharma</span>
             </div>
             <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
-                <AvatarFallback className="text-xs">BS</AvatarFallback>
+                <AvatarFallback className="text-xs">NP</AvatarFallback>
               </Avatar>
-              <span className="text-sm">Bob Smith</span>
+              <span className="text-sm">Nimisha Patel</span>
             </div>
             <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
-                <AvatarFallback className="text-xs">CD</AvatarFallback>
+                <AvatarFallback className="text-xs">NK</AvatarFallback>
               </Avatar>
-              <span className="text-sm">Carol Davies</span>
+              <span className="text-sm">Nandini Kumar</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Avatar className="h-6 w-6">
+                <AvatarFallback className="text-xs">PS</AvatarFallback>
+              </Avatar>
+              <span className="text-sm">Pranav Singh</span>
             </div>
             <div className="flex justify-center mt-2">
               <Button variant="ghost" size="sm" className="text-xs w-full">

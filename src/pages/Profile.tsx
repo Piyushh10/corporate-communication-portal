@@ -16,8 +16,8 @@ const Profile = () => {
     return savedUser
       ? JSON.parse(savedUser)
       : {
-          name: "Demo User",
-          email: "demo@example.com",
+          name: "Piyush Sharma",
+          email: "piyush@example.com",
           role: "Employee",
           department: "Engineering",
           location: "New York",
