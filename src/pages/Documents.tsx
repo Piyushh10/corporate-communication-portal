@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,17 +14,22 @@ import {
   Search, 
   Star, 
   FolderPlus, 
-  Pencil 
+  Pencil,
+  File,
+  FileCode,
+  FilePdf
 } from "lucide-react";
 import { toast } from "sonner";
 
 interface Document {
   id: number;
   name: string;
-  type: 'doc' | 'image' | 'archive';
+  type: 'doc' | 'image' | 'archive' | 'pdf' | 'code' | 'other';
   size: string;
   lastModified: string;
   starred: boolean;
+  file?: File;
+  url?: string;
 }
 
 const Documents = () => {
@@ -56,13 +61,69 @@ const Documents = () => {
   ]);
   
   const [searchTerm, setSearchTerm] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleUpload = () => {
-    toast.success("This is a demo. File upload would happen here in a real application.");
+  const handleFileSelect = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const newDocuments: Document[] = [];
+
+    Array.from(files).forEach((file) => {
+      // Determine file type
+      let type: 'doc' | 'image' | 'archive' | 'pdf' | 'code' | 'other' = 'other';
+      
+      if (file.name.match(/\.(doc|docx|txt|rtf)$/i)) type = 'doc';
+      else if (file.name.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) type = 'image';
+      else if (file.name.match(/\.(zip|rar|tar|gz|7z)$/i)) type = 'archive';
+      else if (file.name.match(/\.(pdf)$/i)) type = 'pdf';
+      else if (file.name.match(/\.(js|ts|html|css|jsx|tsx|json|py|java|cpp)$/i)) type = 'code';
+
+      const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+      
+      const newDoc: Document = {
+        id: Date.now() + Math.random(),
+        name: file.name,
+        type,
+        size: `${sizeInMB} MB`,
+        lastModified: "Just now",
+        starred: false,
+        file,
+        url: URL.createObjectURL(file)
+      };
+      
+      newDocuments.push(newDoc);
+    });
+
+    setDocuments([...newDocuments, ...documents]);
+    toast.success(`${newDocuments.length} file(s) uploaded successfully`);
+    
+    // Reset the input field
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
   
-  const handleDownload = (documentName: string) => {
-    toast.success(`Downloading ${documentName}`);
+  const handleDownload = (doc: Document) => {
+    if (doc.url) {
+      // For user-uploaded files, use the saved URL
+      const a = document.createElement('a');
+      a.href = doc.url;
+      a.download = doc.name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      toast.success(`Downloading ${doc.name}`);
+    } else {
+      // For demo files without actual URLs
+      toast.info(`Demo file: ${doc.name} would be downloaded in a real application`);
+    }
   };
   
   const handleShare = (documentName: string) => {
@@ -76,6 +137,11 @@ const Documents = () => {
   };
   
   const handleDelete = (id: number) => {
+    const documentToDelete = documents.find(doc => doc.id === id);
+    if (documentToDelete?.url) {
+      URL.revokeObjectURL(documentToDelete.url); // Clean up the object URL
+    }
+    
     setDocuments(documents.filter(doc => doc.id !== id));
     toast.success("Document deleted");
   };
@@ -92,8 +158,20 @@ const Documents = () => {
         return <FileImage className="h-5 w-5 text-green-500" />;
       case 'archive':
         return <FileArchive className="h-5 w-5 text-amber-500" />;
+      case 'pdf':
+        return <FilePdf className="h-5 w-5 text-red-500" />;
+      case 'code':
+        return <FileCode className="h-5 w-5 text-purple-500" />;
       default:
-        return <FileText className="h-5 w-5" />;
+        return <File className="h-5 w-5 text-gray-500" />;
+    }
+  };
+
+  const handleViewDocument = (doc: Document) => {
+    if (doc.url) {
+      window.open(doc.url, '_blank');
+    } else {
+      toast.info("This is a demo document without actual file content");
     }
   };
 
@@ -119,7 +197,15 @@ const Documents = () => {
           </div>
           
           <div className="flex gap-2 w-full sm:w-auto">
-            <Button onClick={handleUpload}>
+            {/* Hidden file input */}
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              onChange={handleFileChange} 
+              style={{ display: 'none' }} 
+              multiple 
+            />
+            <Button onClick={handleFileSelect}>
               <Upload className="h-4 w-4 mr-2" /> Upload
             </Button>
             <Button variant="outline">
@@ -144,7 +230,10 @@ const Documents = () => {
                 </div>
                 {filteredDocuments.map((doc) => (
                   <div key={doc.id} className="grid grid-cols-12 gap-2 p-3 border-b last:border-b-0 items-center hover:bg-muted/20">
-                    <div className="col-span-6 flex items-center space-x-3">
+                    <div 
+                      className="col-span-6 flex items-center space-x-3 cursor-pointer"
+                      onClick={() => handleViewDocument(doc)}
+                    >
                       {getFileIcon(doc.type)}
                       <span className="truncate">{doc.name}</span>
                     </div>
@@ -154,7 +243,7 @@ const Documents = () => {
                       <Button size="icon" variant="ghost" onClick={() => handleStarToggle(doc.id)}>
                         <Star className={`h-4 w-4 ${doc.starred ? 'fill-yellow-400 text-yellow-400' : ''}`} />
                       </Button>
-                      <Button size="icon" variant="ghost" onClick={() => handleDownload(doc.name)}>
+                      <Button size="icon" variant="ghost" onClick={() => handleDownload(doc)}>
                         <Download className="h-4 w-4" />
                       </Button>
                       <Button size="icon" variant="ghost" onClick={() => handleShare(doc.name)}>
