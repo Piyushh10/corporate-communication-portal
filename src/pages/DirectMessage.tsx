@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MessageArea from '@/components/MessageArea';
@@ -42,7 +43,7 @@ const DirectMessage = () => {
     const users = {
       piyush: {
         id: 'piyush',
-        name: 'Piyush Sharma',
+        name: 'Piyush',
         status: 'online',
         role: 'Product Manager',
         department: 'Product',
@@ -50,16 +51,16 @@ const DirectMessage = () => {
         messages: [
           {
             id: '1',
-            sender: { name: 'Piyush Sharma', avatarUrl: '' },
+            sender: { name: 'Piyush', avatarUrl: '' },
             content: 'Hi there! Did you get a chance to review the project timeline?',
-            timestamp: new Date(Date.now() - 3600000), // 1 hour ago
+            timestamp: new Date(Date.now() - 3600000),
             isEncrypted: true
           }
         ]
       },
       nimisha: {
         id: 'nimisha',
-        name: 'Nimisha Patel',
+        name: 'Nimisha',
         status: 'offline',
         role: 'Developer',
         department: 'Engineering',
@@ -67,16 +68,16 @@ const DirectMessage = () => {
         messages: [
           {
             id: '1',
-            sender: { name: 'Nimisha Patel', avatarUrl: '' },
+            sender: { name: 'Nimisha', avatarUrl: '' },
             content: 'Can we discuss the deployment schedule tomorrow?',
-            timestamp: new Date(Date.now() - 86400000), // 1 day ago
+            timestamp: new Date(Date.now() - 86400000),
             isEncrypted: true
           }
         ]
       },
       nandini: {
         id: 'nandini',
-        name: 'Nandini Kumar',
+        name: 'Nandini',
         status: 'away',
         role: 'UX Designer',
         department: 'Design',
@@ -84,16 +85,16 @@ const DirectMessage = () => {
         messages: [
           {
             id: '1',
-            sender: { name: 'Nandini Kumar', avatarUrl: '' },
+            sender: { name: 'Nandini', avatarUrl: '' },
             content: 'I\'ve updated the mockups with your feedback.',
-            timestamp: new Date(Date.now() - 7200000), // 2 hours ago
+            timestamp: new Date(Date.now() - 7200000),
             isEncrypted: true
           }
         ]
       },
       pranav: {
         id: 'pranav',
-        name: 'Pranav Singh',
+        name: 'Pranav',
         status: 'dnd',
         role: 'CTO',
         department: 'Executive',
@@ -101,9 +102,9 @@ const DirectMessage = () => {
         messages: [
           {
             id: '1',
-            sender: { name: 'Pranav Singh', avatarUrl: '' },
+            sender: { name: 'Pranav', avatarUrl: '' },
             content: 'Let\'s schedule a quick sync about the security audit results.',
-            timestamp: new Date(Date.now() - 10800000), // 3 hours ago
+            timestamp: new Date(Date.now() - 10800000),
             isEncrypted: true
           }
         ]

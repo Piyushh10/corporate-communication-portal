@@ -5,10 +5,10 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const users = [
-  { id: 'piyush', name: 'Piyush Sharma', status: 'online', avatarUrl: '' },
-  { id: 'nimisha', name: 'Nimisha Patel', status: 'offline', avatarUrl: '' },
-  { id: 'nandini', name: 'Nandini Kumar', status: 'away', avatarUrl: '' },
-  { id: 'pranav', name: 'Pranav Singh', status: 'dnd', avatarUrl: '' },
+  { id: 'piyush', name: 'Piyush', status: 'online', avatarUrl: '' },
+  { id: 'nimisha', name: 'Nimisha', status: 'offline', avatarUrl: '' },
+  { id: 'nandini', name: 'Nandini', status: 'away', avatarUrl: '' },
+  { id: 'pranav', name: 'Pranav', status: 'dnd', avatarUrl: '' },
 ];
 
 const DirectMessageList = () => {

@@ -38,23 +38,23 @@ const Channel = () => {
         messages: [
           {
             id: '1',
-            sender: { name: 'Piyush Sharma', avatarUrl: '' },
+            sender: { name: 'Piyush', avatarUrl: '' },
             content: 'Welcome to the General channel! This is where we discuss company-wide topics.',
-            timestamp: new Date(Date.now() - 3600000 * 2), // 2 hours ago
+            timestamp: new Date(Date.now() - 3600000 * 2),
             isEncrypted: true
           },
           {
             id: '2',
-            sender: { name: 'Nimisha Patel', avatarUrl: '' },
+            sender: { name: 'Nimisha', avatarUrl: '' },
             content: 'Has anyone seen the updated security guidelines? I need to reference them for a client meeting.',
-            timestamp: new Date(Date.now() - 3600000), // 1 hour ago
+            timestamp: new Date(Date.now() - 3600000),
             isEncrypted: true
           },
           {
             id: '3',
-            sender: { name: 'Nandini Kumar', avatarUrl: '' },
+            sender: { name: 'Nandini', avatarUrl: '' },
             content: 'Yes, they were shared last week. I\'ll send you the link.',
-            timestamp: new Date(Date.now() - 1800000), // 30 mins ago
+            timestamp: new Date(Date.now() - 1800000),
             isEncrypted: true
           }
         ]
@@ -67,7 +67,7 @@ const Channel = () => {
             id: '1',
             sender: { name: 'Admin', avatarUrl: '' },
             content: 'Important: The office will be closed this Friday for maintenance.',
-            timestamp: new Date(Date.now() - 86400000), // 1 day ago
+            timestamp: new Date(Date.now() - 86400000),
             isEncrypted: true
           }
         ]
@@ -80,7 +80,7 @@ const Channel = () => {
             id: '1',
             sender: { name: 'Dave Wilson', avatarUrl: '' },
             content: 'The latest build is now available for testing. Please report any bugs on the tracker.',
-            timestamp: new Date(Date.now() - 7200000), // 2 hours ago
+            timestamp: new Date(Date.now() - 7200000),
             isEncrypted: true
           }
         ]
@@ -93,7 +93,7 @@ const Channel = () => {
             id: '1',
             sender: { name: 'Emma Lee', avatarUrl: '' },
             content: 'The Q2 campaign assets are ready for review. I\'ve uploaded them to the shared drive.',
-            timestamp: new Date(Date.now() - 10800000), // 3 hours ago
+            timestamp: new Date(Date.now() - 10800000),
             isEncrypted: true
           }
         ]
@@ -106,7 +106,7 @@ const Channel = () => {
             id: '1',
             sender: { name: 'HR Manager', avatarUrl: '' },
             content: 'Reminder: Performance reviews are due by the end of the month.',
-            timestamp: new Date(Date.now() - 259200000), // 3 days ago
+            timestamp: new Date(Date.now() - 259200000),
             isEncrypted: true
           }
         ]
@@ -222,25 +222,25 @@ const Channel = () => {
               <Avatar className="h-6 w-6">
                 <AvatarFallback className="text-xs">PS</AvatarFallback>
               </Avatar>
-              <span className="text-sm">Piyush Sharma</span>
+              <span className="text-sm">Piyush</span>
             </div>
             <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
                 <AvatarFallback className="text-xs">NP</AvatarFallback>
               </Avatar>
-              <span className="text-sm">Nimisha Patel</span>
+              <span className="text-sm">Nimisha</span>
             </div>
             <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
                 <AvatarFallback className="text-xs">NK</AvatarFallback>
               </Avatar>
-              <span className="text-sm">Nandini Kumar</span>
+              <span className="text-sm">Nandini</span>
             </div>
             <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
                 <AvatarFallback className="text-xs">PS</AvatarFallback>
               </Avatar>
-              <span className="text-sm">Pranav Singh</span>
+              <span className="text-sm">Pranav</span>
             </div>
             <div className="flex justify-center mt-2">
               <Button variant="ghost" size="sm" className="text-xs w-full">
