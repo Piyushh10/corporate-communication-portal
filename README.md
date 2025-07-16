@@ -9,6 +9,6 @@
 - Schedule tasks on calendar
 - Whiteboard
 - Document sharing
-- User profile
+- User profile section
 - Recent activities log
 - End to end encryption in chat 
